@@ -6,3 +6,6 @@ resources
 
 # Ignore the test folder for now
 test
+
+# Ignore all python compiled code
+*.pyc
