@@ -26,6 +26,5 @@
 
 
  ## Tests
-
  * To run tests:
    `python manage.py test`
