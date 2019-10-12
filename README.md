@@ -1,6 +1,6 @@
-# Simple Calendar API
+# simple calendar API
 
-## Setup
+## setup
  * move to the directory where you want to clone the preoject:
    `cd path/to/directory`
 
@@ -25,6 +25,6 @@
  * Visit [http://127.0.0.1:5000/graphql](http://127.0.0.1:5000/graphql) or whatever IP and port the server is configured to run on
 
 
- ## Tests
+ ## test
  * To run tests:
    `python manage.py test`
