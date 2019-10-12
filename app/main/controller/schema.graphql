@@ -1,0 +1,106 @@
+scalar DateTime
+
+type Hello {
+    message: String!
+    other: String!
+}
+
+type User {
+    id: ID!
+    uid: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    country: String!
+    phoneNumber: String!
+    legalName: String
+    businessLegalEntity: String
+    businessLegalEntityOrg: String
+    insurerRepresenting: String
+    insurerAdminEmail: String
+    userType: String
+    emailConfirmed: Boolean
+    phoneConfirmed: Boolean
+    profileComplete: Boolean
+    isActive: Boolean
+    createdAt: DateTime
+    updatedAt: DateTime
+} 
+
+input UserInput {
+    uid: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    country: String!
+    phoneNumber: String!
+    legalName: String
+    businessLegalEntity: String
+    businessLegalEntityOrg: String
+    insurerRepresenting: String
+    insurerAdminEmail: String
+    userType: String
+}
+
+type UserPayload {
+  error: String
+  user: ID
+}
+
+type Event {
+    id: ID!
+    eventId: String!
+    createdByEmail: String!
+    eventDateAndTime: DateTime!
+    timeFormat: String
+    attendees: String!
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+input EventInput {
+    eventId: String!
+    createdByEmail: String!
+    eventDateAndTime: DateTime!
+    timeFormat: String!
+    attendees: String
+}
+
+type EventPayload {
+  error: String
+  event: ID
+}
+
+type UserGroup {
+    id: ID!
+    userGroupId: String!
+    groupName: String!
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+input UserGroupInput {
+    userGroupId: String!
+    groupName: String!
+}
+
+type UserGroupPayload {
+  error: String
+  userGroup: ID
+}
+
+type Query {
+    hello: Hello
+    allUsers: [User]
+    user(id: Int!): User
+    allEvents: [Event]
+    event(id: Int): Event
+    allUserGroups: [UserGroup]
+    userGroup(id: Int): UserGroup
+}
+
+type Mutation {
+    addUser(input: UserInput): UserPayload!
+    addEvent(input: EventInput): EventPayload!
+    addUserGroup(input: UserGroupInput): UserGroupPayload!
+}

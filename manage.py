@@ -5,7 +5,7 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
 from app.main import create_app, db
-from app.main.model import user, calendar, user_group
+from app.main.model import user, event, user_group
 
 app = create_app(os.getenv('CALENDAR_EVENT_ENV') or 'dev')
 
