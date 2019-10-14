@@ -5,7 +5,6 @@ class UserGroup(db.Model):
     __tablename__ = "user_group"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    userGroupId = db.Column(db.String(255), unique=True, nullable=False)
     groupName = db.Column(db.String(255), unique=True, nullable=False)
     createdAt  = db.Column(db.DateTime, nullable=False)
     updatedAt  = db.Column(db.DateTime, nullable=False)

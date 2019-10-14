@@ -21,5 +21,5 @@ class User(db.Model):
     phoneConfirmed  = db.Column(db.Boolean, nullable=False)
     profileComplete  = db.Column(db.Boolean, nullable=False)
     isActive  = db.Column(db.Boolean, nullable=False)
-    createdAt  = db.Column(db.DateTime, nullable=False)
-    updatedAt  = db.Column(db.DateTime, nullable=False)
+    createdAt  = db.Column(db.String(255), unique=False, nullable=False)
+    updatedAt  = db.Column(db.String(255), unique=False, nullable=False)

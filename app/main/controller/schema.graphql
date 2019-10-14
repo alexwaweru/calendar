@@ -43,13 +43,13 @@ input UserInput {
 }
 
 type UserPayload {
+  status: Boolean!
   error: String
   user: ID
 }
 
 type Event {
     id: ID!
-    eventId: String!
     createdByEmail: String!
     eventDateAndTime: DateTime!
     timeFormat: String
@@ -59,7 +59,6 @@ type Event {
 }
 
 input EventInput {
-    eventId: String!
     createdByEmail: String!
     eventDateAndTime: DateTime!
     timeFormat: String!
@@ -67,24 +66,24 @@ input EventInput {
 }
 
 type EventPayload {
+  status: Boolean!
   error: String
   event: ID
 }
 
 type UserGroup {
     id: ID!
-    userGroupId: String!
     groupName: String!
     createdAt: DateTime
     updatedAt: DateTime
 }
 
 input UserGroupInput {
-    userGroupId: String!
     groupName: String!
 }
 
 type UserGroupPayload {
+  status: Boolean!
   error: String
   userGroup: ID
 }
