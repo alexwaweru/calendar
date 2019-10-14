@@ -6,7 +6,7 @@ from flask_cors import CORS
 from app.main import db
 from app.main.model.user import User
 from app.main.model.event import Event
-from app.main.model.user_group import userGroup
+from app.main.model.user_group import UserGroup
 
 from datetime import datetime
 
@@ -93,7 +93,7 @@ def resolve_addUser(*_, user_input):
     status = False
     error = None
     user = None
-    
+
     try:
         new_user = User(
             uid = clean_user_input["uid"],
