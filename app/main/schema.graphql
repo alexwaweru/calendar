@@ -50,6 +50,7 @@ type UserPayload {
 
 type Event {
     id: ID!
+    eventName: String!
     createdByEmail: String!
     eventDateAndTime: DateTime!
     timeFormat: String
@@ -59,6 +60,7 @@ type Event {
 }
 
 input EventInput {
+    eventName: String!
     createdByEmail: String!
     eventDateAndTime: DateTime!
     timeFormat: String!

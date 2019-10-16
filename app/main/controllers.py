@@ -1,19 +1,18 @@
-from ariadne import QueryType, MutationType, make_executable_schema, load_schema_from_path
+import os
+import json
+from datetime import datetime
+
+from ariadne import graphql_sync, QueryType, MutationType, make_executable_schema, load_schema_from_path
 from ariadne.constants import PLAYGROUND_HTML
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from app.main import db
-from app.main.model.user import User
-from app.main.model.event import Event
-from app.main.model.user_group import UserGroup
-
-from datetime import datetime
-
-import json
+from create_app_factory import create_app, db
+from models import User, Event, UserGroup
+from services import send_email
 
 
-type_defs = load_schema_from_path("app/main/controller/schema.graphql")
+type_defs = load_schema_from_path("app/main/schema.graphql")
 
 query = QueryType()
 mutation = MutationType()
@@ -130,6 +129,7 @@ def resolve_addUser(*_, user_input):
 @mutation.field("addEvent")
 def resolve_add_event(*_, event_input):
     clean_event_input = {
+        "eventName": event_input["eventName"],
         "createdByEmail" : event_input["createdByEmail"],
         "eventDateAndTime" : event_input["eventDateAndTime"],
         "timeFormat" : event_input["timeFormat"],
@@ -141,6 +141,7 @@ def resolve_add_event(*_, event_input):
 
     try:
         new_event = Event(
+            eventName = clean_event_input["eventName"],
             createdByEmail = clean_event_input["createdByEmail"],
             eventDateAndTime = clean_event_input["eventDateAndTime"],
             timeFormat = clean_event_input["timeFormat"],
@@ -156,6 +157,11 @@ def resolve_add_event(*_, event_input):
     except Exception as e:
         db.session.rollback()
         db.session.flush() 
+    
+    if status:
+        email_body = ""
+        list_of_invited_emails = clean_event_input["attendees"].split(";")
+        send_email(clean_event_input["createdByEmail"], list_of_invited_emails, clean_event_input["eventName"], email_body)
 
     return {"status" : status, "error" : error, "event" : event}
 
@@ -188,7 +194,8 @@ def resolve_add_user_group(*_, user_group_input):
 
 
 schema = make_executable_schema(type_defs, [query, mutation])
-app = Flask(__name__)
+app = create_app(os.getenv('CALENDAR_EVENT_ENV') or 'dev')
+app.app_context().push()
 CORS(app)
 
 

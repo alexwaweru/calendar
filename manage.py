@@ -19,11 +19,6 @@ manager.add_command('db', MigrateCommand)
 
 
 @manager.command
-def run():
-    app.run()
-
-
-@manager.command
 def test():
     """Runs the unit tests."""
     tests = unittest.TestLoader().discover('app/tests', pattern='test*.py')

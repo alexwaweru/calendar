@@ -1,4 +1,4 @@
-from .. import db
+from create_app_factory import db
 
 class User(db.Model):
     """ User Model for storing user related details """
@@ -23,3 +23,27 @@ class User(db.Model):
     isActive  = db.Column(db.Boolean, nullable=False)
     createdAt  = db.Column(db.String(255), unique=False, nullable=False)
     updatedAt  = db.Column(db.String(255), unique=False, nullable=False)
+
+
+class Event(db.Model):
+    """ Event Model for storing event related details """
+    __tablename__ = "event"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    eventName = db.Column(db.String(255), unique=False, nullable=False)
+    createdByEmail = db.Column(db.String(255), unique=False, nullable=False)
+    eventDateAndTime = db.Column(db.DateTime, nullable=False)
+    timeFormat = db.Column(db.String, unique=False, nullable=False)
+    attendees = db.Column(db.Text , unique=False, nullable=False)
+    createdAt = db.Column(db.String, unique=False, nullable=False)
+    updatedAt = db.Column(db.String, unique=False, nullable=False)
+
+
+class UserGroup(db.Model):
+    """ UserGroup Model for storing user group related details """
+    __tablename__ = "user_group"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    groupName = db.Column(db.String(255), unique=True, nullable=False)
+    createdAt  = db.Column(db.DateTime, nullable=False)
+    updatedAt  = db.Column(db.DateTime, nullable=False)
