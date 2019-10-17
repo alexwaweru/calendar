@@ -30,17 +30,19 @@
    `python manage.py test`
 
  ## Examples
- * Mutations
- Add User
+
+ ###Mutations
+
+ * Add User
 
 ![](https://github.com/alexwaweru/calendar/blob/master/resources/img/addUser.PNG)
 
- Add UserGroup
+ * Add UserGroup
 
  ![](https://github.com/alexwaweru/calendar/blob/master/resources/img/addUserGroup.PNG)
 
- Add Event
+ * Add Event
 
  Adding event automatically sends email to the attendees
- 
+
 ![](https://github.com/alexwaweru/calendar/blob/master/resources/img/addEvent.PNG)
