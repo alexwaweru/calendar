@@ -5,24 +5,17 @@ class User(db.Model):
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    uid = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     firstName = db.Column(db.String(255), unique=False, nullable=False)
     lastName = db.Column(db.String(255), unique=False, nullable=False) 
     country = db.Column(db.String(255), unique=False, nullable=False)
     phoneNumber = db.Column(db.String(255), unique=True, nullable=False)
-    legalName = db.Column(db.String(255), unique=False, nullable=False)
-    businessLegalEntity  = db.Column(db.String(255), unique=False, nullable=False)
-    businessLegalEntityOrg  = db.Column(db.String(255), unique=False, nullable=False)
-    insurerRepresenting  = db.Column(db.String(255), unique=False, nullable=False)
-    insurerAdminEmail  = db.Column(db.String(255), unique=False, nullable=False)
-    userType  = db.Column(db.String(255), unique=False, nullable=False)
-    emailConfirmed  = db.Column(db.Boolean, nullable=False)
-    phoneConfirmed  = db.Column(db.Boolean, nullable=False)
-    profileComplete  = db.Column(db.Boolean, nullable=False)
-    isActive  = db.Column(db.Boolean, nullable=False)
+    userGroup  = db.Column(db.String(255), unique=False, nullable=False)
     createdAt  = db.Column(db.String(255), unique=False, nullable=False)
     updatedAt  = db.Column(db.String(255), unique=False, nullable=False)
+
+    def __repr__(self):
+        return 'User: { firstname: %s, lastname: %s, email: %s }' %(self.firstName, self.lastName, self.email)
 
 
 class Event(db.Model):
@@ -32,11 +25,14 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     eventName = db.Column(db.String(255), unique=False, nullable=False)
     createdByEmail = db.Column(db.String(255), unique=False, nullable=False)
-    eventDateAndTime = db.Column(db.DateTime, nullable=False)
-    timeFormat = db.Column(db.String, unique=False, nullable=False)
+    eventDateAndTime = db.Column(db.String(255), unique=False, nullable=False)
     attendees = db.Column(db.Text , unique=False, nullable=False)
     createdAt = db.Column(db.String, unique=False, nullable=False)
     updatedAt = db.Column(db.String, unique=False, nullable=False)
+
+    def __repr__(self):
+        return 'Event: { eventName: %s, DateTime: %s}' %(self.eventName, self.eventDateAndTime)
+
 
 
 class UserGroup(db.Model):
@@ -45,5 +41,8 @@ class UserGroup(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     groupName = db.Column(db.String(255), unique=True, nullable=False)
-    createdAt  = db.Column(db.DateTime, nullable=False)
-    updatedAt  = db.Column(db.DateTime, nullable=False)
+    createdAt  = db.Column(db.String(255), unique=False, nullable=False)
+    updatedAt  = db.Column(db.String(255), unique=False, nullable=False)
+
+    def __repr__(self):
+        return 'UserGroup: { groupName: %s }' %(self.groupName)

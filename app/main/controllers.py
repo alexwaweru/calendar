@@ -11,8 +11,7 @@ from create_app_factory import create_app, db
 from models import User, Event, UserGroup
 from services import send_email
 
-
-type_defs = load_schema_from_path("app/main/schema.graphql")
+type_defs = load_schema_from_path("schema.graphql")
 
 query = QueryType()
 mutation = MutationType()
@@ -21,176 +20,198 @@ mutation = MutationType()
 # Query fields resolvers
 @query.field("hello")
 def resolve_hello(_, info):
-    request = info.context["request"]
-    user_agent = request.headers.get("user-agent", "guest")
+    user_agent = None
+    try:
+        request = info.context["request"]
+        user_agent = request.headers.get("user-agent", "guest")
+        app.logger.info('Hello query was successful')
+    except Exception as e:
+        app.logger.error('error occured while running hello query: %s' % e)
 
     return "Hello, %s!" % user_agent
 
 
 @query.field("allUsers")
 def resolve_all_users(*_):
-    all_users = []
-    results = User.query.all()
-    for row in results:
-        all_users.append(row._asdict())
+    query_results = None
+    try:
+        query_results = User.query.all()
+        app.logger.info('allUsers query was successful')
+    except Exception as e:
+        app.logger.error('error occured while running allUsers query: %s' % e)
 
-    return all_users
+    return query_results
 
 
 @query.field("user")
 def resolve_user(*_, id):
-    return User.query.get(id)._asdict()
+    query_results = None
+    try:
+        query_results = User.query.get(id)
+        app.logger.info('query of user_id: %d was successful' % id)
+    except Exception as e:
+        app.logger.error('error occured while running user_id: %d query: %s' % (id, e))
+
+    return query_results
 
 
 @query.field("allEvents")
 def resolve_all_events(*_):
-    all_events = []
-    results = Event.query.all()
-    for row in results:
-        all_events.append(row._asdict())
+    query_results = None
+    try:
+        query_results = Event.query.all()
+        app.logger.info('allEvents query was successful')
+    except Exception as e:
+        app.logger.error('error occured while running allEvents query: %s' % e)
 
-    return all_events
+    return query_results
 
 
 @query.field("event")
 def resolve_event(*_, id):
-    return Event.query.get(id)._asdict()
+    query_results = None
+    try:
+        query_results = Event.query.get(id)
+        app.logger.info('query of event_id: %d was successful' % id)
+    except Exception as e:
+        app.logger.error('error occured while running event_id: %d query: %s' % (id, e))
+
+    return query_results
 
 
 @query.field("allUserGroups")
 def resolve_all_user_groups(*_):
-    all_user_groups = []
-    results = UserGroup.query.all()
-    for row in results:
-        all_user_groups.append(row._asdict())
+    query_results = None
+    try:
+        query_results = UserGroup.query.all()
+        app.logger.info('allUserGroups query was successful')
+    except Exception as e:
+        app.logger.error('error occured while running allUserGroups query: %s' % e)
 
-    return all_user_groups
+    return query_results
 
 
 @query.field("userGroup")
 def resolve_user_group(*_, id):
-    return UserGroup.query.get(id)._asdict()
+    query_results = None
+    try:
+        query_results = UserGroup.query.get(id)
+        app.logger.info('query of userGroup_id: %d was successful' % id)
+    except Exception as e:
+        app.logger.error('error occured while running userGroup_id: %d query: %s' % (id, e))
+
+    return query_results
 
 
 # Mutation fields resolvers
 @mutation.field("addUser")
-def resolve_addUser(*_, user_input):
-    clean_user_input = {
-        "uid" : user_input["uid"],
-        "email" : user_input["email"],
-        "firstName": user_input["firstName"],
-        "lastName" : user_input["lastName"],
-        "country" : user_input["country"],
-        "phoneNumber" : user_input["phoneNumber"],
-        "legalName" : user_input["legalName"],
-        "businessLegalEntity" : user_input["businessLegalEntity"],
-        "businessLegalEntityOrg" : user_input["businessLegalEntityOrg"],
-        "insurerRepresenting" : user_input["insurerRepresenting"],
-        "insurerAdminEmail" : user_input["insurerAdminEmail"],
-        "userType" : user_input["userType"]
-    }
+def resolve_addUser(*_, input):
+
     status = False
     error = None
-    user = None
+    user_id = None
 
     try:
         new_user = User(
-            uid = clean_user_input["uid"],
-            email = clean_user_input["email"],
-            firstName = clean_user_input["firstName"],
-            lastName = clean_user_input["lastName"],
-            country = clean_user_input["country"],
-            phoneNumber = clean_user_input["phoneNumber"],
-            legalName = clean_user_input["legalName"],
-            businessLegalEntity = clean_user_input["businessLegalEntity"],
-            businessLegalEntityOrg = clean_user_input["businessLegalEntityOrg"],
-            insurerRepresenting = clean_user_input["insurerRepresenting"],
-            insurerAdminEmail = clean_user_input["insurerAdminEmail"],
-            userType = clean_user_input["userType"],
-            emailConfirmed  = False,    
-            phoneConfirmed  = False,  
-            profileComplete  = True,    
-            isActive  = False,   
+            email = input["email"],
+            firstName = input["firstName"],
+            lastName = input["lastName"],
+            country = input["country"],
+            phoneNumber = input["phoneNumber"],
+            userGroup = input["userGroup"],  
             createdAt  = datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
             updatedAt  = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         )
+        app.logger.info('new user: %s' % new_user)
+        db.create_all()
         db.session.add(new_user)
         db.session.flush()
-        user = new_user.id
+        user_id = new_user.id
         db.session.commit()
+        app.logger.info('%s added to the database, id: %s ' %(new_user, user_id))
         status=True
     except Exception as e:
+        error = e
+        app.logger.error(e)
         db.session.rollback()
         db.session.flush() 
 
-    return {"status" : status, "error" : error, "user" : user}
+    return {"status" : status, "error" : error, "userID" : user_id}
 
 
 @mutation.field("addEvent")
-def resolve_add_event(*_, event_input):
-    clean_event_input = {
-        "eventName": event_input["eventName"],
-        "createdByEmail" : event_input["createdByEmail"],
-        "eventDateAndTime" : event_input["eventDateAndTime"],
-        "timeFormat" : event_input["timeFormat"],
-        "attendees" : event_input["attendees"]
-    }
+def resolve_add_event(*_, input):
+
     status = False
     error = None
-    event = None
+    event_id = None
 
     try:
         new_event = Event(
-            eventName = clean_event_input["eventName"],
-            createdByEmail = clean_event_input["createdByEmail"],
-            eventDateAndTime = clean_event_input["eventDateAndTime"],
-            timeFormat = clean_event_input["timeFormat"],
-            attendees = clean_event_input["attendees"],
+            eventName = input["eventName"],
+            createdByEmail = input["createdByEmail"],
+            eventDateAndTime = input["eventDateAndTime"],
+            attendees = input["attendees"],
             createdAt  = datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
             updatedAt  = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         )
+        app.logger.info('new event: %s' % new_event)
+        db.create_all()
         db.session.add(new_event)
         db.session.flush()
-        event = new_event.id
+        event_id = new_event.id
         db.session.commit()
+        app.logger.info('%s added to the database, id: %s ' %(new_event, event_id))
         status=True
     except Exception as e:
+        error = e
+        app.logger.error(e)
         db.session.rollback()
         db.session.flush() 
     
     if status:
-        email_body = ""
-        list_of_invited_emails = clean_event_input["attendees"].split(";")
-        send_email(clean_event_input["createdByEmail"], list_of_invited_emails, clean_event_input["eventName"], email_body)
+        email_body = "You have been invited"
+        list_of_invited_emails = input["attendees"].split(";")
+        app.logger.info('sending event invite email to: %s' % list_of_invited_emails)
+        response = send_email(input["createdByEmail"], list_of_invited_emails, input["eventName"], email_body)
+        
+        if response.status_code == 200:
+            app.logger.info('invite email successfully sent')
+        else:
+            app.logger.error('Error occurred while sending email: %s' %response.json())
 
-    return {"status" : status, "error" : error, "event" : event}
+
+    return {"status" : status, "error" : error, "eventID" : event_id}
 
 
 @mutation.field("addUserGroup")
-def resolve_add_user_group(*_, user_group_input):
-    clean_user_group_input = {
-        "groupName" : user_group_input["groupName"],
-    }
+def resolve_add_user_group(*_, input):
+
     status = False
     error = None
-    user_group = None
+    user_group_id = None
 
     try:
         new_user_group = UserGroup(
-            groupName = clean_user_group_input["createdByEmail"],
+            groupName = input["groupName"],
             createdAt  = datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
             updatedAt  = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         )
+        app.logger.info('new user group: %s' % new_user_group)
+        db.create_all()
         db.session.add(new_user_group)
         db.session.flush()
-        user_group = new_user_group.id
+        user_group_id = new_user_group.id
         db.session.commit()
+        app.logger.info('%s added to the database, id: %s ' %(new_user_group, user_group_id))
         status=True
     except Exception as e:
+        error = e
+        app.logger.error(e)
         db.session.rollback()
         db.session.flush() 
 
-    return {"status" : status, "error" : error, "userGroup" : user_group}
+    return {"status" : status, "error" : error, "userGroupID" : user_group_id}
 
 
 schema = make_executable_schema(type_defs, [query, mutation])
