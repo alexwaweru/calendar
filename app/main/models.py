@@ -11,8 +11,8 @@ class User(db.Model):
     country = db.Column(db.String(255), unique=False, nullable=False)
     phoneNumber = db.Column(db.String(255), unique=True, nullable=False)
     userGroup  = db.Column(db.String(255), unique=False, nullable=False)
-    createdAt  = db.Column(db.String(255), unique=False, nullable=False)
-    updatedAt  = db.Column(db.String(255), unique=False, nullable=False)
+    createdAt  = db.Column(db.DateTime, nullable=False)
+    updatedAt  = db.Column(db.DateTime, nullable=False)
 
     def __repr__(self):
         return 'User: { firstname: %s, lastname: %s, email: %s }' %(self.firstName, self.lastName, self.email)
@@ -27,8 +27,8 @@ class Event(db.Model):
     createdByEmail = db.Column(db.String(255), unique=False, nullable=False)
     eventDateAndTime = db.Column(db.String(255), unique=False, nullable=False)
     attendees = db.Column(db.Text , unique=False, nullable=False)
-    createdAt = db.Column(db.String, unique=False, nullable=False)
-    updatedAt = db.Column(db.String, unique=False, nullable=False)
+    createdAt = db.Column(db.DateTime, nullable=False)
+    updatedAt = db.Column(db.DateTime, nullable=False)
 
     def __repr__(self):
         return 'Event: { eventName: %s, DateTime: %s}' %(self.eventName, self.eventDateAndTime)
@@ -41,8 +41,8 @@ class UserGroup(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     groupName = db.Column(db.String(255), unique=True, nullable=False)
-    createdAt  = db.Column(db.String(255), unique=False, nullable=False)
-    updatedAt  = db.Column(db.String(255), unique=False, nullable=False)
+    createdAt  = db.Column(db.DateTime, nullable=False)
+    updatedAt  = db.Column(db.DateTime, nullable=False)
 
     def __repr__(self):
         return 'UserGroup: { groupName: %s }' %(self.groupName)

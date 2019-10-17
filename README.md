@@ -20,7 +20,7 @@
    `pip install -r requrements.txt`
 
  * Start the server:
-  `python python app/main/controller/graphql_server.py`
+  `python python app/main/controller/controllers.py`
 
  * Visit [http://127.0.0.1:5000/graphql](http://127.0.0.1:5000/graphql) or whatever IP and port the server is configured to run on
 
@@ -31,7 +31,7 @@
 
  ## Examples
 
- ### Mutations
+ ### A Few Mutations
 
  * Add User
 
@@ -46,3 +46,19 @@
  Adding event automatically sends email to the attendees
 
 ![](https://github.com/alexwaweru/calendar/blob/master/resources/img/addEvent.PNG)
+
+* Add Group Event
+
+ Adding group event automatically sends email to every user who is in that user type/group
+
+![](https://github.com/alexwaweru/calendar/blob/master/resources/img/addGroupEvent.PNG)
+
+* Delete Event
+
+ Deleting event automatically sends email to every user who is in that user type/group
+
+![](https://github.com/alexwaweru/calendar/blob/master/resources/img/deleteEvent.PNG)
+
+* Update User
+
+![](https://github.com/alexwaweru/calendar/blob/master/resources/img/updateUser.PNG)

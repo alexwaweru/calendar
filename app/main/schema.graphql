@@ -21,10 +21,32 @@ input UserInput {
     lastName: String!
     country: String!
     phoneNumber: String!
+    userGroup: String!
+}
+
+input UpdateUserInput {
+    id: ID!
+    email: String
+    firstName: String
+    lastName: String
+    country: String
+    phoneNumber: String
     userGroup: String
 }
 
 type UserPayload {
+  status: Boolean!
+  error: String
+  userID: ID
+}
+
+type UpdateUserPayload {
+  status: Boolean!
+  error: String
+  user: User
+}
+
+type DeleteUserPayload {
   status: Boolean!
   error: String
   userID: ID
@@ -44,10 +66,37 @@ input EventInput {
     eventName: String!
     createdByEmail: String!
     eventDateAndTime: String!
+    attendees: String!
+}
+
+input GroupEventInput {
+    eventName: String!
+    createdByEmail: String!
+    eventDateAndTime: String!
+    groupName: String!
+}
+
+input UpdateEventInput {
+    id: ID!
+    eventName: String
+    createdByEmail: String
+    eventDateAndTime: String
     attendees: String
 }
 
 type EventPayload {
+  status: Boolean!
+  error: String
+  eventID: ID
+}
+
+type UpdateEventPayload {
+  status: Boolean!
+  error: String
+  event: Event
+}
+
+type DeleteEventPayload {
   status: Boolean!
   error: String
   eventID: ID
@@ -64,7 +113,24 @@ input UserGroupInput {
     groupName: String!
 }
 
+input UpdateUserGroupInput {
+    id: ID!
+    groupName: String
+}
+
 type UserGroupPayload {
+  status: Boolean!
+  error: String
+  userGroupID: ID
+}
+
+type UpdateUserGroupPayload {
+  status: Boolean!
+  error: String
+  userGroup: UserGroup
+}
+
+type DeleteUserGroupPayload {
   status: Boolean!
   error: String
   userGroupID: ID
@@ -82,6 +148,13 @@ type Query {
 
 type Mutation {
     addUser(input: UserInput): UserPayload!
+    updateUser(input: UpdateUserInput): UpdateUserPayload!
+    deleteUser(id: Int!): DeleteUserPayload!
     addEvent(input: EventInput): EventPayload!
+    addGroupEvent(input: GroupEventInput): EventPayload!
+    updateEvent(input: UpdateEventInput): UpdateEventPayload!
+    deleteEvent(id: Int!): DeleteEventPayload!
     addUserGroup(input: UserGroupInput): UserGroupPayload!
+    updateUserGroup(input: UpdateUserGroupInput): UpdateUserGroupPayload!
+    deleteUserGroup(id: Int!): DeleteUserGroupPayload!
 }
