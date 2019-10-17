@@ -1,11 +1,5 @@
 # Ignore the virtual env installations folder
 venv
 
-# Ignore the resources folder since it contains the yaml configurations
-resources
-
-# Ignore the test folder for now
-test
-
 # Ignore all python compiled code
 *.pyc

@@ -1,0 +1,5 @@
+    DEBUG: True
+    TESTING: True
+    DATABASE_URI: kakbima_calendar_test.db
+    PRESERVE_CONTEXT_ON_EXCEPTION: False
+    SQLALCHEMY_TRACK_MODIFICATIONS: False
