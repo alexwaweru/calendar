@@ -32,6 +32,7 @@
  ## Examples
  * Mutations
  Add User
+ ![]("resources/img/addUser.png")
  <img src="resources/img/addUser.png"
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
