@@ -32,16 +32,15 @@
  ## Examples
  * Mutations
  Add User
- ![]("resources/img/addUser.png")
- <img src="resources/img/addUser.png"
-     alt="Markdown Monster icon"
-     style="float: left; margin-right: 10px;" />
+
+![](https://github.com/alexwaweru/calendar/blob/master/resources/img/addUser.PNG)
+
  Add UserGroup
- <img src="resources/img/addUserGroup.png"
-     alt="Markdown Monster icon"
-     style="float: left; margin-right: 10px;" />
+
+ ![](https://github.com/alexwaweru/calendar/blob/master/resources/img/addUserGroup.PNG)
+
  Add Event
+
  Adding event automatically sends email to the attendees
- <img src="resources/img/addEvent.png"
-     alt="Markdown Monster icon"
-     style="float: left; margin-right: 10px;" />
+ 
+![](https://github.com/alexwaweru/calendar/blob/master/resources/img/addEvent.PNG)
