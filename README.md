@@ -28,3 +28,19 @@
  ## test
  * To run tests:
    `python manage.py test`
+
+ ## Examples
+ * Mutations
+ Add User
+ <img src="resources/img/addUser.png"
+     alt="Markdown Monster icon"
+     style="float: left; margin-right: 10px;" />
+ Add UserGroup
+ <img src="resources/img/addUserGroup.png"
+     alt="Markdown Monster icon"
+     style="float: left; margin-right: 10px;" />
+ Add Event
+ Adding event automatically sends email to the attendees
+ <img src="resources/img/addEvent.png"
+     alt="Markdown Monster icon"
+     style="float: left; margin-right: 10px;" />

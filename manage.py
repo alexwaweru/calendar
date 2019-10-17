@@ -4,8 +4,7 @@ import unittest
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
-from app.main import create_app, db
-from app.main.model import user, event, user_group
+from app.main.create_app_factory import create_app, db
 
 app = create_app(os.getenv('CALENDAR_EVENT_ENV') or 'dev')
 
